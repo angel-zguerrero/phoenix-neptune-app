@@ -1,1 +1,1 @@
-# phoenix-neptune-app
+# Phoenix Neptune App
