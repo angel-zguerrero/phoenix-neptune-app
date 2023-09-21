@@ -1,0 +1,49 @@
+version: "3"
+
+volumes:
+  neptune-app-adminer:
+  neptune-app-postgres:
+  
+networks:
+  umbrella-net:
+    name: "umbrella-net"
+    external: false
+services:
+  neptune-app-environment:
+    build:
+      context: .
+      dockerfile: ./Dockerfile   
+    volumes:
+      - ../:/neptune-app-environment
+    networks:
+      - umbrella-net
+  neptune-app-postgres:
+    image: postgres
+    volumes:
+      - neptune-app-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    expose:
+      - 5432
+    ports:
+      - 5432:5432      
+    restart: unless-stopped
+    networks:
+      - umbrella-net
+  neptune-app-adminer:
+    image: adminer
+    volumes:
+      - neptune-app-adminer:/var/lib/postgresql/data
+    environment:
+      ADMINER_DEFAULT_SERVER: neptune-app-postgres
+      ADMINER_DEFAULT_USER: postgres
+      ADMINER_DEFAULT_PASSWORD: postgres
+      ADMINER_DEFAULT_TYPE: postgresql
+    expose:
+      - 8080
+    ports:
+      - 8080:8080      
+    restart: unless-stopped
+    networks:
+      - umbrella-net

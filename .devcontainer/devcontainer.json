@@ -1,0 +1,13 @@
+{
+  "name": "Neptune Dev Container",
+  "dockerComposeFile": "./docker-compose.yaml",
+  "workspaceFolder": "/neptune-app-environment",
+  "service": "neptune-app-environment",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/sh"
+  },
+  "extensions": [
+    "jakebecker.elixir-ls"
+  ],
+  "forwardPorts": []
+}
