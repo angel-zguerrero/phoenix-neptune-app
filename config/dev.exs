@@ -2,9 +2,9 @@ import Config
 
 # Configure your database
 config :neptune_app, NeptuneApp.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "neptune-app-postgres",
+  username: System.get_env("DATABASE_USER") || "postgres",
+  password: System.get_env("DATABASE_PASSWORD") || "postgres",
+  hostname:  System.get_env("DATABASE_HOST") || "neptune-app-postgres",
   database: "neptune_app_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
