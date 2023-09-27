@@ -23,3 +23,5 @@ mix archive.install hex phx_new
 mix ecto.create
 
 iex -S mix phx.server
+
+mix ecto.migrate

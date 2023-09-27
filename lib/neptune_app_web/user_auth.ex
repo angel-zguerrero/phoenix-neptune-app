@@ -5,6 +5,8 @@ defmodule NeptuneAppWeb.UserAuth do
   import Phoenix.Controller
 
   alias NeptuneApp.Accounts
+  alias NeptuneApp.Constants
+  require Constants
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -224,4 +226,23 @@ defmodule NeptuneAppWeb.UserAuth do
   defp maybe_store_return_to(conn), do: conn
 
   defp signed_in_path(_conn), do: ~p"/"
+
+  #AUTHORIZATION
+
+  def require_installation_state_or_admin_user(conn, _opts) do
+    current_user =  conn.assigns[:current_user]
+    users_count = Accounts.count_users
+    cond do
+      current_user != :nil && current_user.role == Constants.role_admin ->
+        conn
+      users_count == 0 ->
+        conn
+      true ->
+        conn
+        |> put_flash(:error, "Only administrators can create accounts")
+        |> maybe_store_return_to()
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
+    end
+  end
 end

@@ -350,4 +350,8 @@ defmodule NeptuneApp.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def count_users do
+    Repo.aggregate(User, :count, :id)
+  end
 end

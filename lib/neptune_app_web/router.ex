@@ -47,11 +47,18 @@ defmodule NeptuneAppWeb.Router do
 
   ## Authentication routes
 
+    ## Authentication routes
+
   scope "/", NeptuneAppWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
+    pipe_through [:browser, :require_installation_state_or_admin_user]
 
     get "/users/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
+  end
+
+  scope "/", NeptuneAppWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
     get "/users/log_in", UserSessionController, :new
     post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new

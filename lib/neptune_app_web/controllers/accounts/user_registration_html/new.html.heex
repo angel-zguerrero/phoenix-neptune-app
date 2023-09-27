@@ -17,6 +17,7 @@
 
     <.input field={f[:email]} type="email" label="Email" required />
     <.input field={f[:password]} type="password" label="Password" required />
+    <.input field={f[:role]} type="select" label="Role" multiple={false} options={role_opts(@changeset)} />
 
     <:actions>
       <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
