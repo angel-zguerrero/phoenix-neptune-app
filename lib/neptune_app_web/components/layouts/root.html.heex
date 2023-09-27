@@ -34,7 +34,8 @@
             Log out
           </.link>
         </li>
-      <% else %>
+      <% end %>
+      <%= if @current_user_count == 0 || @current_user != :nil && @current_user.role == "admin" do  %>
         <li>
           <.link
             href={~p"/users/register"}
@@ -43,6 +44,8 @@
             Register
           </.link>
         </li>
+        <% end %>
+        <%= if @current_user == :nil do  %>
         <li>
           <.link
             href={~p"/users/log_in"}

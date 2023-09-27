@@ -245,4 +245,8 @@ defmodule NeptuneAppWeb.UserAuth do
         |> halt()
     end
   end
+  @spec fetch_current_user_count(Plug.Conn.t(), any) :: Plug.Conn.t()
+  def fetch_current_user_count(conn, _opts) do
+    assign(conn, :current_user_count, Accounts.count_users)
+  end
 end
