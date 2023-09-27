@@ -1,13 +1,6 @@
 <div class="mx-auto max-w-sm">
   <.header class="text-center">
     Register for an account
-    <:subtitle>
-      Already registered?
-      <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
-        Sign in
-      </.link>
-      to your account now.
-    </:subtitle>
   </.header>
 
   <.simple_form :let={f} for={@changeset} action={~p"/users/register"}>
@@ -17,8 +10,9 @@
 
     <.input field={f[:email]} type="email" label="Email" required />
     <.input field={f[:password]} type="password" label="Password" required />
-    <.input field={f[:role]} type="select" label="Role" multiple={false} options={role_opts(@changeset)} />
-
+    <%= if @current_user_count != 0  do%>
+      <.input field={f[:role]} type="select" label="Role" multiple={false} options={role_opts(@changeset)} />
+    <% end %>
     <:actions>
       <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
     </:actions>

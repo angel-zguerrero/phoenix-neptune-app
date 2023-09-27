@@ -35,17 +35,17 @@
           </.link>
         </li>
       <% end %>
-      <%= if @current_user_count == 0 || @current_user != :nil && @current_user.role == "admin" do  %>
+      <%= if @current_user != :nil && @current_user.role == "admin" do  %>
         <li>
           <.link
             href={~p"/users/register"}
             class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
-            Register
+            Register new user
           </.link>
         </li>
         <% end %>
-        <%= if @current_user == :nil do  %>
+        <%= if  @current_user_count > 0 && @current_user == :nil do  %>
         <li>
           <.link
             href={~p"/users/log_in"}
