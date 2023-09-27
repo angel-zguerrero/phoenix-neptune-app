@@ -1,0 +1,8 @@
+<.header>
+  Edit Experiment <%= @experiment.id %>
+  <:subtitle>Use this form to manage experiment records in your database.</:subtitle>
+</.header>
+
+<.experiment_form changeset={@changeset} action={~p"/experiments/#{@experiment}"} />
+
+<.back navigate={~p"/experiments"}>Back to experiments</.back>

@@ -1,0 +1,28 @@
+<.header>
+  Listing Scientific operations
+  <:actions>
+    <.link href={~p"/scientific_operations/new"}>
+      <.button>New Scientific operation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="scientific_operations" rows={@scientific_operations} row_click={&JS.navigate(~p"/scientific_operations/#{&1}")}>
+  <:col :let={scientific_operation} label="Type"><%= scientific_operation.type %></:col>
+  <:col :let={scientific_operation} label="Remoteid"><%= scientific_operation.remoteId %></:col>
+  <:col :let={scientific_operation} label="Remotestatus"><%= scientific_operation.remoteStatus %></:col>
+  <:col :let={scientific_operation} label="Remoteresult"><%= scientific_operation.remoteResult %></:col>
+  <:col :let={scientific_operation} label="Parameters"><%= scientific_operation.parameters %></:col>
+  <:col :let={scientific_operation} label="Result"><%= scientific_operation.result %></:col>
+  <:action :let={scientific_operation}>
+    <div class="sr-only">
+      <.link navigate={~p"/scientific_operations/#{scientific_operation}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/scientific_operations/#{scientific_operation}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={scientific_operation}>
+    <.link href={~p"/scientific_operations/#{scientific_operation}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

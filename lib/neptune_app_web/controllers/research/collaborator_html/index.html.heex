@@ -1,0 +1,23 @@
+<.header>
+  Listing Collaborators
+  <:actions>
+    <.link href={~p"/collaborators/new"}>
+      <.button>New Collaborator</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="collaborators" rows={@collaborators} row_click={&JS.navigate(~p"/collaborators/#{&1}")}>
+  <:col :let={collaborator} label="Role"><%= collaborator.role %></:col>
+  <:action :let={collaborator}>
+    <div class="sr-only">
+      <.link navigate={~p"/collaborators/#{collaborator}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/collaborators/#{collaborator}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={collaborator}>
+    <.link href={~p"/collaborators/#{collaborator}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

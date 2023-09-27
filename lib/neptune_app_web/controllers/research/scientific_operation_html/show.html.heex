@@ -1,0 +1,20 @@
+<.header>
+  Scientific operation <%= @scientific_operation.id %>
+  <:subtitle>This is a scientific_operation record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/scientific_operations/#{@scientific_operation}/edit"}>
+      <.button>Edit scientific_operation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Type"><%= @scientific_operation.type %></:item>
+  <:item title="Remoteid"><%= @scientific_operation.remoteId %></:item>
+  <:item title="Remotestatus"><%= @scientific_operation.remoteStatus %></:item>
+  <:item title="Remoteresult"><%= @scientific_operation.remoteResult %></:item>
+  <:item title="Parameters"><%= @scientific_operation.parameters %></:item>
+  <:item title="Result"><%= @scientific_operation.result %></:item>
+</.list>
+
+<.back navigate={~p"/scientific_operations"}>Back to scientific_operations</.back>

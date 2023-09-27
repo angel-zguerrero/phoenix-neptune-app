@@ -1,0 +1,19 @@
+<.header>
+  Experiment <%= @experiment.id %>
+  <:subtitle>This is a experiment record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/experiments/#{@experiment}/edit"}>
+      <.button>Edit experiment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @experiment.name %></:item>
+  <:item title="Description"><%= @experiment.description %></:item>
+  <:item title="Results"><%= @experiment.results %></:item>
+  <:item title="Conclusions"><%= @experiment.conclusions %></:item>
+  <:item title="Status"><%= @experiment.status %></:item>
+</.list>
+
+<.back navigate={~p"/experiments"}>Back to experiments</.back>

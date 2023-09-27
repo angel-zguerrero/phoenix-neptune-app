@@ -1,0 +1,15 @@
+<.header>
+  Collaborator <%= @collaborator.id %>
+  <:subtitle>This is a collaborator record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/collaborators/#{@collaborator}/edit"}>
+      <.button>Edit collaborator</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Role"><%= @collaborator.role %></:item>
+</.list>
+
+<.back navigate={~p"/collaborators"}>Back to collaborators</.back>
