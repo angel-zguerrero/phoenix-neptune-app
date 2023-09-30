@@ -1,6 +1,7 @@
 defmodule NeptuneAppWeb.ExperimentController do
   use NeptuneAppWeb, :controller
 
+  alias Ecto.Migration.SchemaMigration
   alias NeptuneApp.Research
   alias NeptuneApp.Research.Experiment
 
@@ -30,7 +31,8 @@ defmodule NeptuneAppWeb.ExperimentController do
 
   def show(conn, %{"id" => id}) do
     experiment = Research.get_experiment!(id)
-    render(conn, :show, experiment: experiment)
+    scientificOperationChangeset = Research.change_scientific_operation(%NeptuneApp.Research.ScientificOperation{})
+    render(conn, :show, experiment: experiment, scientificOperationChangeset: scientificOperationChangeset)
   end
 
   def edit(conn, %{"id" => id}) do

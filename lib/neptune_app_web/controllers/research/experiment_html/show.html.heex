@@ -5,6 +5,9 @@
     <.link href={~p"/experiments/#{@experiment}/edit"}>
       <.button>Edit experiment</.button>
     </.link>
+    <.link href={~p"/experiments/#{@experiment}"} method="delete" data-confirm="Are you sure?">
+         <.button style="color: red;">Delete</.button>
+    </.link>
   </:actions>
 </.header>
 
@@ -16,8 +19,16 @@
   <:item title="Status"><%= @experiment.status %></:item>
   <:item title="Owner"><%= @experiment.created_by.email %></:item>
 </.list>
+<br/>
+<div>
+  <.button style="color: green;" phx-click={show_modal("scientific-operation-modal")}>  Add Scientific Operation  </.button>
+</div>
+
 
 <.back navigate={~p"/experiments"}>Back to experiments</.back>
-<.link href={~p"/experiments/#{@experiment}"} method="delete" data-confirm="Are you sure?">
-    Delete
-</.link>
+
+
+
+<.modal id="scientific-operation-modal">
+    <NeptuneAppWeb.ScientificOperationHTML.scientific_operation_form changeset={@scientificOperationChangeset} action={~p"/scientific_operations"} />
+</.modal>
