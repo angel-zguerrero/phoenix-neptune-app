@@ -9,10 +9,8 @@
 
 <.table id="experiments" rows={@experiments} row_click={&JS.navigate(~p"/experiments/#{&1}")}>
   <:col :let={experiment} label="Name"><%= experiment.name %></:col>
-  <:col :let={experiment} label="Description"><%= experiment.description %></:col>
-  <:col :let={experiment} label="Results"><%= experiment.results %></:col>
-  <:col :let={experiment} label="Conclusions"><%= experiment.conclusions %></:col>
   <:col :let={experiment} label="Status"><%= experiment.status %></:col>
+  <:col :let={experiment} label="Owner"><%= experiment.created_by.email %></:col>
   <:action :let={experiment}>
     <div class="sr-only">
       <.link navigate={~p"/experiments/#{experiment}"}>Show</.link>

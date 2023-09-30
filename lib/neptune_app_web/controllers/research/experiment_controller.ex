@@ -17,8 +17,6 @@ defmodule NeptuneAppWeb.ExperimentController do
   def create(conn, %{"experiment" => experiment_params}) do
     current_user =  conn.assigns[:current_user]
     experiment_params = Map.put(experiment_params, "created_by", current_user)
-    IO.inspect("experiment_params")
-    IO.inspect(experiment_params)
     case Research.create_experiment(experiment_params) do
       {:ok, experiment} ->
         conn
@@ -26,8 +24,6 @@ defmodule NeptuneAppWeb.ExperimentController do
         |> redirect(to: ~p"/experiments/#{experiment}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect("changeset")
-        IO.inspect(changeset)
         render(conn, :new, changeset: changeset)
     end
   end

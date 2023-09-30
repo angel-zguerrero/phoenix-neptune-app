@@ -115,6 +115,7 @@ defmodule NeptuneApp.Research do
   """
   def list_experiments do
     Repo.all(Experiment)
+    |> Repo.preload(:created_by)
   end
 
   @doc """
@@ -131,7 +132,7 @@ defmodule NeptuneApp.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_experiment!(id), do: Repo.get!(Experiment, id)
+  def get_experiment!(id), do: Repo.get!(Experiment, id) |> Repo.preload(:created_by)
 
   @doc """
   Creates a experiment.
