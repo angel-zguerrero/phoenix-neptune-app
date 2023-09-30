@@ -17,7 +17,6 @@ defmodule NeptuneAppWeb.ExperimentController do
   def create(conn, %{"experiment" => experiment_params}) do
     current_user =  conn.assigns[:current_user]
     experiment_params = Map.put(experiment_params, "created_by", current_user)
-    experiment_params = Map.put(experiment_params, "created_by", current_user)
     case Research.create_experiment(experiment_params) do
       {:ok, experiment} ->
         conn
