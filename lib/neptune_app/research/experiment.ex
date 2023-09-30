@@ -4,7 +4,7 @@ defmodule NeptuneApp.Research.Experiment do
 
   schema "experiments" do
     field :name, :string
-    field :status, Ecto.Enum, values: [:in_progress, :completed, :paused, :canceled]
+    field :status, Ecto.Enum, values: [:in_progress, :completed, :paused, :canceled, :idle], default: :idle
     field :description, :string
     field :results, :string
     field :conclusions, :string
