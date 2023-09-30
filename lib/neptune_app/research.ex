@@ -147,7 +147,7 @@ defmodule NeptuneApp.Research do
   """
   def create_experiment(attrs \\ %{}) do
     %Experiment{}
-    |> Experiment.changeset(attrs)
+    |> Experiment.changeset_create(attrs)
     |> Repo.insert()
   end
 

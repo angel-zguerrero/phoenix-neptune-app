@@ -6,8 +6,8 @@ defmodule NeptuneAppWeb.ExperimentHTML do
   @doc """
   Renders a experiment form.
   """
-  attr :changeset, Ecto.Changeset, required: true
-  attr :action, :string, required: true
+  attr :changeset, Ecto.Changeset, required: false
+  attr :action, :string, required: false
 
   def experiment_form(assigns)
 end
