@@ -25,7 +25,11 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
           label="Type"
           options={Ecto.Enum.values(NeptuneApp.Research.ScientificOperation, :type)}
         />
+        <%= if  @currentType == :factorial || @currentType == "factorial" do %>
+          <.input field={@form[:parameters]} type="number" label="Parameters" />
+        <% else %>
         <.input field={@form[:parameters]} type="textarea" label="Parameters" />
+        <% end%>
         <:actions>
           <.button phx-disable-with="Saving...">Save Scientific operation</.button>
         </:actions>
@@ -37,11 +41,12 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
   @impl true
   def update(%{scientific_operation: scientific_operation} = assigns, socket) do
     changeset = Research.change_scientific_operation(scientific_operation)
-
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_form(changeset)}
+     |> assign_form(changeset)
+     |> assign(:currentType, scientific_operation.type)
+    }
   end
 
   @impl true
@@ -51,7 +56,10 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
       |> Research.change_scientific_operation(scientific_operation_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign_form(socket, changeset)}
+    socket_assign =
+      assign_form(socket, changeset)
+      |> assign(currentType: scientific_operation_params["type"])
+    {:noreply, socket_assign}
   end
 
   def handle_event("save", %{"scientific_operation" => scientific_operation_params}, socket) do
