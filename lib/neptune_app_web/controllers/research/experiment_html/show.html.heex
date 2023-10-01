@@ -21,7 +21,9 @@
 </.list>
 <br/>
 <div>
-  <.button style="color: green;" phx-click={show_modal("scientific-operation-modal")}>  Add Scientific Operation  </.button>
+  <.link patch={~p"/scientific_operations/new"}>
+      <.button>New Scientific operation</.button>
+  </.link>
 </div>
 
 
@@ -29,6 +31,3 @@
 
 
 
-<.modal id="scientific-operation-modal">
-    <NeptuneAppWeb.ScientificOperationHTML.scientific_operation_form changeset={@scientificOperationChangeset} action={~p"/scientific_operations"} />
-</.modal>

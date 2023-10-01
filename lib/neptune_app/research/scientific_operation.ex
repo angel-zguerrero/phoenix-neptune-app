@@ -3,12 +3,12 @@ defmodule NeptuneApp.Research.ScientificOperation do
   import Ecto.Changeset
 
   schema "scientific_operations" do
-    field :type, :string
-    field :result, :map
-    field :parameters, :map
+    field :type, Ecto.Enum, values: [:factorial], default: :factorial
+    field :result, :string
+    field :parameters, :string
     field :remoteId, :string
     field :remoteStatus, :string
-    field :remoteResult, :map
+    field :remoteResult, :string
 
     timestamps()
   end
@@ -16,7 +16,7 @@ defmodule NeptuneApp.Research.ScientificOperation do
   @doc false
   def changeset(scientific_operation, attrs) do
     scientific_operation
-    |> cast(attrs, [:type, :remoteId, :remoteStatus, :remoteResult, :parameters, :result])
-    |> validate_required([:type, :remoteId, :remoteStatus, :remoteResult, :parameters, :result])
+    |> cast(attrs, [:type, :parameters])
+    |> validate_required([:type, :parameters])
   end
 end

@@ -1,0 +1,31 @@
+<.header>
+  Scientific operation <%= @scientific_operation.id %>
+  <:subtitle>This is a scientific_operation record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/scientific_operations/#{@scientific_operation}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit Scientific Operation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Type"><%= @scientific_operation.type %></:item>
+  <:item title="Remoteid"><%= @scientific_operation.remoteId %></:item>
+  <:item title="Remotestatus"><%= @scientific_operation.remoteStatus %></:item>
+  <:item title="Remoteresult"><%= @scientific_operation.remoteResult %></:item>
+  <:item title="Parameters"><%= @scientific_operation.parameters %></:item>
+  <:item title="Result"><%= @scientific_operation.result %></:item>
+</.list>
+
+<.back navigate={~p"/scientific_operations"}>Back to scientific_operations</.back>
+
+<.modal :if={@live_action == :edit} id="scientific_operation-modal" show on_cancel={JS.patch(~p"/scientific_operations/#{@scientific_operation}")}>
+  <.live_component
+    module={NeptuneAppWeb.ScientificOperationLive.FormComponent}
+    id={@scientific_operation.id}
+    title={@page_title}
+    action={@live_action}
+    scientific_operation={@scientific_operation}
+    patch={~p"/scientific_operations/#{@scientific_operation}"}
+  />
+</.modal>

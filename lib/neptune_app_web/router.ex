@@ -75,9 +75,16 @@ defmodule NeptuneAppWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     resources "/comments", CommentController
-    resources "/scientific_operations", ScientificOperationController
     resources "/experiments", ExperimentController
     resources "/collaborators", CommentController
+
+    live "/scientific_operations", ScientificOperationLive.Index, :index
+    live "/scientific_operations/new", ScientificOperationLive.Index, :new
+    live "/scientific_operations/:id/edit", ScientificOperationLive.Index, :edit
+
+    live "/scientific_operations/:id", ScientificOperationLive.Show, :show
+    live "/scientific_operations/:id/show/edit", ScientificOperationLive.Show, :edit
+
 
   end
 
