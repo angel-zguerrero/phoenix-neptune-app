@@ -17,5 +17,4 @@ defmodule NeptuneAppWeb.ScientificOperationLive.Show do
   end
 
   defp page_title(:show), do: "Show Scientific operation"
-  defp page_title(:edit), do: "Edit Scientific operation"
 end

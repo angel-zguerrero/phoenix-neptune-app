@@ -1,7 +1,6 @@
 defmodule NeptuneAppWeb.ExperimentController do
   use NeptuneAppWeb, :controller
 
-  alias Ecto.Migration.SchemaMigration
   alias NeptuneApp.Research
   alias NeptuneApp.Research.Experiment
 

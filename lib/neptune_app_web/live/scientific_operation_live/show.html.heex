@@ -2,9 +2,6 @@
   Scientific operation <%= @scientific_operation.id %>
   <:subtitle>This is a scientific_operation record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/scientific_operations/#{@scientific_operation}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit Scientific Operation</.button>
-    </.link>
   </:actions>
 </.header>
 

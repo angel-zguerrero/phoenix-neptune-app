@@ -80,12 +80,8 @@ defmodule NeptuneAppWeb.Router do
 
     live "/scientific_operations", ScientificOperationLive.Index, :index
     live "/scientific_operations/new", ScientificOperationLive.Index, :new
-    live "/scientific_operations/:id/edit", ScientificOperationLive.Index, :edit
 
     live "/scientific_operations/:id", ScientificOperationLive.Show, :show
-    live "/scientific_operations/:id/show/edit", ScientificOperationLive.Show, :edit
-
-
   end
 
   scope "/", NeptuneAppWeb do
