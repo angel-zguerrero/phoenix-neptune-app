@@ -76,6 +76,15 @@
   <.button phx-click="open-comment-modal">Add a comment</.button>
 </div>
 
+<.table
+  id="comments"
+  rows={@streams.comments}
+>
+  <:col :let={{_id, comment}} label="Comment"><%= comment.content %></:col>
+  <:col :let={{_id, comment}} label="Author"><%= comment.created_by.email %></:col>
+
+</.table>
+
 <.modal :if={@open_comment} id="comment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
    <.live_component
     module={NeptuneAppWeb.CommentLive.FormComponent}

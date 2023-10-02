@@ -7,7 +7,11 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok, stream(socket, :scientific_operations, Research.list_scientific_operations(params["id"]))}
+    scientific_operations = Research.list_scientific_operations(params["id"])
+    comments = Research.list_comments(params["id"])
+    {:ok, socket
+    |> stream(:scientific_operations, scientific_operations)
+    |> stream(:comments, comments)}
   end
 
   @impl true
@@ -55,8 +59,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info({NeptuneAppWeb.CommentLive.FormComponent, {:saved, comment}}, socket) do
-    IO.inspect("handle_info for comment")
-    {:noreply, socket}
+    {:noreply, stream(socket, :comments, Research.list_comments(comment.experiment_id))}
   end
 
   defp page_title(:show), do: "Show Experiment"

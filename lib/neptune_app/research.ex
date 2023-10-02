@@ -214,6 +214,12 @@ defmodule NeptuneApp.Research do
     Repo.all(Comment)
   end
 
+  def list_comments(experiment_id) when experiment_id != :nil do
+    query = from com in Comment, where: com.experiment_id == ^experiment_id
+    Repo.all(query)
+    |> Repo.preload(:created_by)
+  end
+
   @doc """
   Gets a single comment.
 
