@@ -5,9 +5,14 @@
     <.link patch={~p"/experiments/#{@experiment}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit experiment</.button>
     </.link>
-    <.link href={~p"/experiments/#{@experiment}"} method="delete" data-confirm="Are you sure?">
-        <.button style="color: red;">Delete</.button>
+
+    <.link
+      phx-click={JS.push("delete", value: %{id: @experiment.id}) |> hide("##{ @experiment.id}")}
+      data-confirm="Are you sure?"
+    >
+       <.button style="color: red;">Delete</.button>
     </.link>
+
   </:actions>
 </.header>
 
