@@ -63,6 +63,8 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
   end
 
   def handle_event("save", %{"scientific_operation" => scientific_operation_params}, socket) do
+    current_user =  socket.assigns[:current_user]
+    scientific_operation_params = Map.put(scientific_operation_params, "created_by", current_user)
     save_scientific_operation(socket, socket.assigns.action, scientific_operation_params)
   end
 

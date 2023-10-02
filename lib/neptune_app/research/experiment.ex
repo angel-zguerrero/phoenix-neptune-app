@@ -20,11 +20,11 @@ defmodule NeptuneApp.Research.Experiment do
     |> cast(attrs, [:name, :description, :results, :conclusions, :status])
     |> validate_required([:name, :description])
   end
-    @doc false
-    def changeset_create(experiment, attrs) do
-      experiment
-      |> cast(attrs, [:name, :description, :results, :conclusions, :status])
-      |> validate_required([:name, :description])
-      |> Ecto.Changeset.put_assoc(:created_by, attrs["created_by"])
-    end
+  @doc false
+  def changeset_create(experiment, attrs) do
+    experiment
+    |> cast(attrs, [:name, :description, :results, :conclusions, :status])
+    |> validate_required([:name, :description])
+    |> Ecto.Changeset.put_assoc(:created_by, attrs["created_by"])
+  end
 end
