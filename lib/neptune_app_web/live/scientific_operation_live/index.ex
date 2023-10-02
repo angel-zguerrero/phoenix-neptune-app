@@ -37,11 +37,4 @@ defmodule NeptuneAppWeb.ScientificOperationLive.Index do
     {:noreply, stream_insert(socket, :scientific_operations, scientific_operation)}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    scientific_operation = Research.get_scientific_operation!(id)
-    {:ok, _} = Research.delete_scientific_operation(scientific_operation)
-
-    {:noreply, stream_delete(socket, :scientific_operations, scientific_operation)}
-  end
 end

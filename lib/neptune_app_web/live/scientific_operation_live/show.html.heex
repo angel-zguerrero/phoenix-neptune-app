@@ -2,6 +2,12 @@
   Scientific operation <%= @scientific_operation.id %>
   <:subtitle>This is a scientific_operation record from your database.</:subtitle>
   <:actions>
+      <.link
+        phx-click={JS.push("delete", value: %{id: @scientific_operation.id}) |> hide("##{@scientific_operation.id}")}
+        data-confirm="Are you sure?"
+      >
+       <.button style="color: red;">Delete</.button>
+      </.link>
   </:actions>
 </.header>
 
