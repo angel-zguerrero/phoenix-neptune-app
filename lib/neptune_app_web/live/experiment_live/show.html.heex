@@ -71,4 +71,22 @@
   />
  </.modal>
 
+
+<div>
+  <.button phx-click="open-comment-modal">Add a comment</.button>
+</div>
+
+<.modal :if={@open_comment} id="comment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
+   <.live_component
+    module={NeptuneAppWeb.CommentLive.FormComponent}
+    id={@experiment.id}
+    title={@page_title}
+    action={:new}
+    comment={@comment}
+    experiment={@experiment}
+    patch={~p"/experiments/#{@experiment}"}
+    current_user={@current_user}
+  />
+ </.modal>
+
  <.back navigate={~p"/experiments"}>Back to experiments</.back>

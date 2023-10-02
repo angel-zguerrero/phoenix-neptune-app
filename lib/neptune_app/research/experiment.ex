@@ -11,6 +11,7 @@ defmodule NeptuneApp.Research.Experiment do
 
     belongs_to :created_by, NeptuneApp.Accounts.User, foreign_key: :created_by_id
     has_many :scientific_operations, NeptuneApp.Research.ScientificOperation
+    has_many :comments, NeptuneApp.Research.Comment
 
     timestamps()
   end

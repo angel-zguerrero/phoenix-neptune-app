@@ -3,6 +3,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   alias NeptuneApp.Research
   alias NeptuneApp.Research.ScientificOperation
+  alias NeptuneApp.Research.Comment
 
   @impl true
   def mount(params, _session, socket) do
@@ -14,9 +15,11 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     {:noreply,
      socket
      |> assign(:open_scientific_operation, false)
+     |> assign(:open_comment, false)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:experiment, Research.get_experiment!(id))
      |> assign(:scientific_operation, %ScientificOperation{})
+     |> assign(:comment, %Comment{})
     }
 
   end
@@ -30,10 +33,14 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_event("open-scientific-operation-modal", _params, socket) do
-    IO.inspect("open-scientific-operation-modal>>>")
-
     {:noreply, socket
     |> assign(:open_scientific_operation, true)}
+  end
+
+  @impl true
+  def handle_event("open-comment-modal", _params, socket) do
+    {:noreply, socket
+    |> assign(:open_comment, true)}
   end
 
   @impl true
@@ -42,8 +49,14 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   end
 
   @impl true
-  def handle_info({NeptuneAppWeb.ExperimentLive.FormComponent, {:saved, experiment}}, socket) do
-    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(experiment.id))}
+  def handle_info({NeptuneAppWeb.ExperimentLive.FormComponent, {:saved, _experiment}}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({NeptuneAppWeb.CommentLive.FormComponent, {:saved, comment}}, socket) do
+    IO.inspect("handle_info for comment")
+    {:noreply, socket}
   end
 
   defp page_title(:show), do: "Show Experiment"

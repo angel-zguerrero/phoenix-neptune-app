@@ -29,3 +29,5 @@ mix ecto.migrate
 mix phx.gen.live Research ScientificOperation scientific_operations  [--no-context --no-schema]
 
 mix phx.gen.live Research Experiment experiments
+
+mix ecto.gen.migration create_experiment_comments

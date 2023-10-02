@@ -244,7 +244,7 @@ defmodule NeptuneApp.Research do
   """
   def create_comment(attrs \\ %{}) do
     %Comment{}
-    |> Comment.changeset(attrs)
+    |> Comment.changeset_create(attrs)
     |> Repo.insert()
   end
 
