@@ -37,15 +37,29 @@
   row_click={fn {_id, scientific_operation} -> JS.navigate(~p"/scientific_operations/#{scientific_operation}") end}
 >
   <:col :let={{_id, scientific_operation}} label="Type"><%= scientific_operation.type %></:col>
+  <:col :let={{_id, scientific_operation}} label="Parameters"><%= scientific_operation.parameters %></:col>
   <:col :let={{_id, scientific_operation}} label="Remoteid"><%= scientific_operation.remoteId %></:col>
   <:col :let={{_id, scientific_operation}} label="Remotestatus"><%= scientific_operation.remoteStatus %></:col>
-  <:col :let={{_id, scientific_operation}} label="Parameters"><%= scientific_operation.parameters %></:col>
   <:col :let={{_id, scientific_operation}} label="Owner"><%= scientific_operation.created_by.email %></:col>
   <:action :let={{_id, scientific_operation}}>
-    <.link navigate={~p"/scientific_operations/#{scientific_operation}"}>Show</.link>
+    <.link phx-click="open-scientific-operation-detail-modal" phx-value-scientific-operation-id ={scientific_operation.id}>Show</.link>
   </:action>
 
 </.table>
+
+<.modal :if={@open_scientific_operation_detail} id="scientific-operation-detail-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
+  <.header>
+    Scientific operation <%= @scientific_operation_detail.id %>
+  </.header>
+  <.list>
+  <:item title="Type"><%= @scientific_operation_detail.type %></:item>
+  <:item title="Parameters"><%= @scientific_operation_detail.parameters %></:item>
+  <:item title="Remoteid"><%= @scientific_operation_detail.remoteId %></:item>
+  <:item title="Remotestatus"><%= @scientific_operation_detail.remoteStatus %></:item>
+  <:item title="Remoteresult"><%= @scientific_operation_detail.remoteResult %></:item>
+  <:item title="Result"><%= @scientific_operation_detail.result %></:item>
+</.list>
+</.modal>
 
 <.modal :if={@live_action == :edit} id="experiment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
   <.live_component
