@@ -42,7 +42,8 @@ defmodule NeptuneAppWeb.ExperimentLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     experiment = Research.get_experiment!(id)
     {:ok, _} = Research.delete_experiment(experiment)
-
-    {:noreply, stream_delete(socket, :experiments, experiment)}
+    r = socket
+    |> redirect(to: ~p"/experiments")
+    {:noreply, stream_delete(r, :experiments, experiment)}
   end
 end

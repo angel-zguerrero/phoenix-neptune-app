@@ -5,6 +5,9 @@
     <.link patch={~p"/experiments/#{@experiment}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit experiment</.button>
     </.link>
+    <.link href={~p"/experiments/#{@experiment}"} method="delete" data-confirm="Are you sure?">
+        <.button style="color: red;">Delete</.button>
+    </.link>
   </:actions>
 </.header>
 
@@ -18,6 +21,13 @@
 </.list>
 
 <.back navigate={~p"/experiments"}>Back to experiments</.back>
+
+<br/>
+<div>
+  <.link patch={~p"/scientific_operations/new"}>
+      <.button>New Scientific operation</.button>
+  </.link>
+</div>
 
 <.modal :if={@live_action == :edit} id="experiment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
   <.live_component
