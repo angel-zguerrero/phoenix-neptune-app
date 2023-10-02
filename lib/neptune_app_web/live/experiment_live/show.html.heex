@@ -29,9 +29,9 @@
 
 <br/>
 <div>
-  <.link patch={~p"/scientific_operations/new"}>
+    <.link patch={~p"/scientific_operations/new"}>
       <.button>New Scientific operation</.button>
-  </.link>
+    </.link>
 </div>
 
 <.modal :if={@live_action == :edit} id="experiment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
@@ -44,3 +44,15 @@
     patch={~p"/experiments/#{@experiment}"}
   />
 </.modal>
+
+
+<.live_component
+  module={NeptuneAppWeb.ScientificOperationLive.FormComponent}
+  id={@experiment.id}
+  title={@page_title}
+  action={:new}
+  scientific_operation={@scientific_operation}
+  experiment={@experiment}
+  patch={~p"/experiments/#{@experiment}"}
+  current_user={@current_user}
+ />

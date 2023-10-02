@@ -325,7 +325,7 @@ defmodule NeptuneApp.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_scientific_operation!(id), do: Repo.get!(ScientificOperation, id) |> Repo.preload(:created_by)
+  def get_scientific_operation!(id), do: Repo.get!(ScientificOperation, id) |> Repo.preload(:created_by) |> Repo.preload(:experiment)
 
   @doc """
   Creates a scientific_operation.

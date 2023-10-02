@@ -2,6 +2,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   use NeptuneAppWeb, :live_view
 
   alias NeptuneApp.Research
+  alias NeptuneApp.Research.ScientificOperation
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +14,10 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:experiment, Research.get_experiment!(id))}
+     |> assign(:experiment, Research.get_experiment!(id))
+     |> assign(:scientific_operation, %ScientificOperation{})
+    }
+
   end
 
   @impl true
@@ -22,6 +26,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     {:ok, _} = Research.delete_experiment(experiment)
     {:noreply, push_redirect(socket, to: ~p"/experiments")}
   end
+
 
   defp page_title(:show), do: "Show Experiment"
   defp page_title(:edit), do: "Edit Experiment"

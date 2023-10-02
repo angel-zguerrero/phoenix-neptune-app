@@ -10,6 +10,7 @@ defmodule NeptuneApp.Research.Experiment do
     field :conclusions, :string
 
     belongs_to :created_by, NeptuneApp.Accounts.User, foreign_key: :created_by_id
+    has_many :scientific_operations, NeptuneApp.Research.ScientificOperation
 
     timestamps()
   end

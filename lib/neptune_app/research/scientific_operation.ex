@@ -11,6 +11,7 @@ defmodule NeptuneApp.Research.ScientificOperation do
     field :remoteResult, :string
 
     belongs_to :created_by, NeptuneApp.Accounts.User, foreign_key: :created_by_id
+    belongs_to :experiment, NeptuneApp.Research.Experiment, foreign_key: :experiment_id
 
     timestamps()
   end
@@ -28,5 +29,6 @@ defmodule NeptuneApp.Research.ScientificOperation do
     |> cast(attrs, [:type, :parameters])
     |> validate_required([:type, :parameters])
     |> Ecto.Changeset.put_assoc(:created_by, attrs["created_by"])
+    |> Ecto.Changeset.put_assoc(:experiment, attrs["experiment"])
   end
 end
