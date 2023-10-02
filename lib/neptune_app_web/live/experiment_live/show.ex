@@ -5,8 +5,8 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   alias NeptuneApp.Research.ScientificOperation
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(params, _session, socket) do
+    {:ok, stream(socket, :scientific_operations, Research.list_scientific_operations(params["id"]))}
   end
 
   @impl true
@@ -36,6 +36,15 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     |> assign(:open_scientific_operation, true)}
   end
 
+  @impl true
+  def handle_info({NeptuneAppWeb.ScientificOperationLive.FormComponent, {:saved, scientific_operation}}, socket) do
+    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(scientific_operation.experiment_id))}
+  end
+
+  @impl true
+  def handle_info({NeptuneAppWeb.ExperimentLive.FormComponent, {:saved, experiment}}, socket) do
+    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(experiment.id))}
+  end
 
   defp page_title(:show), do: "Show Experiment"
   defp page_title(:edit), do: "Edit Experiment"

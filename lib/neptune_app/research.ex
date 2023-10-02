@@ -311,6 +311,12 @@ defmodule NeptuneApp.Research do
     |> Repo.preload(:created_by)
   end
 
+  def list_scientific_operations(experiment_id) when experiment_id != :nil do
+    query = from so in ScientificOperation, where: so.experiment_id == ^experiment_id
+    Repo.all(query)
+    |> Repo.preload(:created_by)
+  end
+
   @doc """
   Gets a single scientific_operation.
 
