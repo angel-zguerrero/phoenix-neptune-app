@@ -75,13 +75,23 @@ defmodule NeptuneAppWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     resources "/comments", CommentController
-    resources "/experiments", ExperimentController
     resources "/collaborators", CommentController
 
-    live "/scientific_operations", ScientificOperationLive.Index, :index
-    live "/scientific_operations/new", ScientificOperationLive.Index, :new
+    live_session :authenticated, on_mount: [{NeptuneAppWeb.UserAuth, :ensure_authenticated}] do
+      live "/scientific_operations", ScientificOperationLive.Index, :index
+      live "/scientific_operations/new", ScientificOperationLive.Index, :new
+      live "/scientific_operations/:id", ScientificOperationLive.Show, :show
 
-    live "/scientific_operations/:id", ScientificOperationLive.Show, :show
+      live "/experiments", ExperimentLive.Index, :index
+      live "/experiments/new", ExperimentLive.Index, :new
+      live "/experiments/:id/edit", ExperimentLive.Index, :edit
+
+      live "/experiments/:id", ExperimentLive.Show, :show
+      live "/experiments/:id/show/edit", ExperimentLive.Show, :edit
+    end
+
+
+
   end
 
   scope "/", NeptuneAppWeb do
@@ -92,5 +102,7 @@ defmodule NeptuneAppWeb.Router do
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
+
+
   end
 end

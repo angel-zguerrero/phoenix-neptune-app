@@ -25,3 +25,7 @@ mix ecto.create
 iex -S mix phx.server
 
 mix ecto.migrate
+
+mix phx.gen.live Research ScientificOperation scientific_operations  [--no-context --no-schema]
+
+mix phx.gen.live Research Experiment experiments
