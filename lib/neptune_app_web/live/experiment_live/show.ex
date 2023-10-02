@@ -13,6 +13,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket
+     |> assign(:open_scientific_operation, false)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:experiment, Research.get_experiment!(id))
      |> assign(:scientific_operation, %ScientificOperation{})
@@ -25,6 +26,14 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     experiment = Research.get_experiment!(id)
     {:ok, _} = Research.delete_experiment(experiment)
     {:noreply, push_redirect(socket, to: ~p"/experiments")}
+  end
+
+  @impl true
+  def handle_event("open-scientific-operation-modal", _params, socket) do
+    IO.inspect("open-scientific-operation-modal>>>")
+
+    {:noreply, socket
+    |> assign(:open_scientific_operation, true)}
   end
 
 

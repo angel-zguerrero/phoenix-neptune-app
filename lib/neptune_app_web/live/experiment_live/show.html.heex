@@ -29,9 +29,7 @@
 
 <br/>
 <div>
-    <.link patch={~p"/scientific_operations/new"}>
-      <.button>New Scientific operation</.button>
-    </.link>
+  <.button phx-click="open-scientific-operation-modal">New Scientific operation</.button>
 </div>
 
 <.modal :if={@live_action == :edit} id="experiment-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
@@ -45,14 +43,15 @@
   />
 </.modal>
 
-
-<.live_component
-  module={NeptuneAppWeb.ScientificOperationLive.FormComponent}
-  id={@experiment.id}
-  title={@page_title}
-  action={:new}
-  scientific_operation={@scientific_operation}
-  experiment={@experiment}
-  patch={~p"/experiments/#{@experiment}"}
-  current_user={@current_user}
- />
+<.modal :if={@open_scientific_operation} id="scientific-operation-modal" show on_cancel={JS.patch(~p"/experiments/#{@experiment}")}>
+  <.live_component
+    module={NeptuneAppWeb.ScientificOperationLive.FormComponent}
+    id={@experiment.id}
+    title={@page_title}
+    action={:new}
+    scientific_operation={@scientific_operation}
+    experiment={@experiment}
+    patch={~p"/experiments/#{@experiment}"}
+    current_user={@current_user}
+  />
+ </.modal>
