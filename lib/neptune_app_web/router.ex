@@ -24,10 +24,10 @@ defmodule NeptuneAppWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", NeptuneAppWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", NeptuneAppWeb do
+    pipe_through :api
+    post "/tyrant-api/notification", WebhookController, :handle_notification
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:neptune_app, :dev_routes) do
