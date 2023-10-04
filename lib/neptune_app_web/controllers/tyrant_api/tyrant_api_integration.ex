@@ -38,6 +38,7 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
         end
       end
     end
+    Process.sleep(1000)
     {:noreply, state}
   end
 

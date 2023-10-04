@@ -68,4 +68,19 @@ defmodule NeptuneApp.ResearchFixtures do
 
     scientific_operation
   end
+
+  @doc """
+  Generate a ingestion.
+  """
+  def ingestion_fixture(attrs \\ %{}) do
+    {:ok, ingestion} =
+      attrs
+      |> Enum.into(%{
+        code: "some code",
+        lastDate: ~T[14:00:00]
+      })
+      |> NeptuneApp.Research.create_ingestion()
+
+    ingestion
+  end
 end

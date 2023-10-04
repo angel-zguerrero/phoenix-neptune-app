@@ -408,4 +408,104 @@ defmodule NeptuneApp.Research do
   def change_scientific_operation(%ScientificOperation{} = scientific_operation, attrs \\ %{}) do
     ScientificOperation.changeset(scientific_operation, attrs)
   end
+
+  alias NeptuneApp.Research.Ingestion
+
+  @doc """
+  Returns the list of ingestions.
+
+  ## Examples
+
+      iex> list_ingestions()
+      [%Ingestion{}, ...]
+
+  """
+  def list_ingestions do
+    Repo.all(Ingestion)
+  end
+
+  @doc """
+  Gets a single ingestion.
+
+  Raises `Ecto.NoResultsError` if the Ingestion does not exist.
+
+  ## Examples
+
+      iex> get_ingestion!(123)
+      %Ingestion{}
+
+      iex> get_ingestion!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_ingestion!(id), do: Repo.get!(Ingestion, id)
+
+  def get_ingestion_by_code!(code) do
+    query = from ing in Ingestion, where: ing.code == ^code
+    Repo.one(query)
+  end
+  @doc """
+  Creates a ingestion.
+
+  ## Examples
+
+      iex> create_ingestion(%{field: value})
+      {:ok, %Ingestion{}}
+
+      iex> create_ingestion(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_ingestion(attrs \\ %{}) do
+    %Ingestion{}
+    |> Ingestion.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a ingestion.
+
+  ## Examples
+
+      iex> update_ingestion(ingestion, %{field: new_value})
+      {:ok, %Ingestion{}}
+
+      iex> update_ingestion(ingestion, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_ingestion(%Ingestion{} = ingestion, attrs) do
+    ingestion
+    |> Ingestion.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a ingestion.
+
+  ## Examples
+
+      iex> delete_ingestion(ingestion)
+      {:ok, %Ingestion{}}
+
+      iex> delete_ingestion(ingestion)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_ingestion(%Ingestion{} = ingestion) do
+    Repo.delete(ingestion)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking ingestion changes.
+
+  ## Examples
+
+      iex> change_ingestion(ingestion)
+      %Ecto.Changeset{data: %Ingestion{}}
+
+  """
+  def change_ingestion(%Ingestion{} = ingestion, attrs \\ %{}) do
+    Ingestion.changeset(ingestion, attrs)
+  end
 end

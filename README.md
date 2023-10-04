@@ -31,3 +31,7 @@ mix phx.gen.live Research ScientificOperation scientific_operations  [--no-conte
 mix phx.gen.live Research Experiment experiments
 
 mix ecto.gen.migration create_experiment_comments
+
+mix phx.gen.schema Ingestion ingestion code:string lastDate:time
+
+mix phx.gen.json Research Ingestion ingestions code:string lastDate:time

@@ -236,4 +236,60 @@ defmodule NeptuneApp.ResearchTest do
       assert %Ecto.Changeset{} = Research.change_scientific_operation(scientific_operation)
     end
   end
+
+  describe "ingestions" do
+    alias NeptuneApp.Research.Ingestion
+
+    import NeptuneApp.ResearchFixtures
+
+    @invalid_attrs %{code: nil, lastDate: nil}
+
+    test "list_ingestions/0 returns all ingestions" do
+      ingestion = ingestion_fixture()
+      assert Research.list_ingestions() == [ingestion]
+    end
+
+    test "get_ingestion!/1 returns the ingestion with given id" do
+      ingestion = ingestion_fixture()
+      assert Research.get_ingestion!(ingestion.id) == ingestion
+    end
+
+    test "create_ingestion/1 with valid data creates a ingestion" do
+      valid_attrs = %{code: "some code", lastDate: ~T[14:00:00]}
+
+      assert {:ok, %Ingestion{} = ingestion} = Research.create_ingestion(valid_attrs)
+      assert ingestion.code == "some code"
+      assert ingestion.lastDate == ~T[14:00:00]
+    end
+
+    test "create_ingestion/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Research.create_ingestion(@invalid_attrs)
+    end
+
+    test "update_ingestion/2 with valid data updates the ingestion" do
+      ingestion = ingestion_fixture()
+      update_attrs = %{code: "some updated code", lastDate: ~T[15:01:01]}
+
+      assert {:ok, %Ingestion{} = ingestion} = Research.update_ingestion(ingestion, update_attrs)
+      assert ingestion.code == "some updated code"
+      assert ingestion.lastDate == ~T[15:01:01]
+    end
+
+    test "update_ingestion/2 with invalid data returns error changeset" do
+      ingestion = ingestion_fixture()
+      assert {:error, %Ecto.Changeset{}} = Research.update_ingestion(ingestion, @invalid_attrs)
+      assert ingestion == Research.get_ingestion!(ingestion.id)
+    end
+
+    test "delete_ingestion/1 deletes the ingestion" do
+      ingestion = ingestion_fixture()
+      assert {:ok, %Ingestion{}} = Research.delete_ingestion(ingestion)
+      assert_raise Ecto.NoResultsError, fn -> Research.get_ingestion!(ingestion.id) end
+    end
+
+    test "change_ingestion/1 returns a ingestion changeset" do
+      ingestion = ingestion_fixture()
+      assert %Ecto.Changeset{} = Research.change_ingestion(ingestion)
+    end
+  end
 end
