@@ -339,6 +339,11 @@ defmodule NeptuneApp.Research do
   """
   def get_scientific_operation!(id), do: Repo.get!(ScientificOperation, id) |> Repo.preload(:created_by) |> Repo.preload(:experiment)
 
+  def get_scientific_operation_by_remote_id!(id) do
+    query = from so in ScientificOperation, where: so.remoteId == ^id
+    Repo.one(query)
+  end
+
   @doc """
   Creates a scientific_operation.
 
@@ -371,7 +376,7 @@ defmodule NeptuneApp.Research do
   """
   def update_scientific_operation(%ScientificOperation{} = scientific_operation, attrs) do
     scientific_operation
-    |> ScientificOperation.changeset(attrs)
+    |> ScientificOperation.changeset_update(attrs)
     |> Repo.update()
   end
 

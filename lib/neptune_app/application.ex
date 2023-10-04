@@ -17,9 +17,10 @@ defmodule NeptuneApp.Application do
       # Start Finch
       {Finch, name: NeptuneApp.Finch},
       # Start the Endpoint (http/https)
-      NeptuneAppWeb.Endpoint
+      NeptuneAppWeb.Endpoint,
       # Start a worker by calling: NeptuneApp.Worker.start_link(arg)
       # {NeptuneApp.Worker, arg}
+      {NeptuneAppWeb.TyrantApi.TyrantApiIntegration, [strategy: :one_for_one]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

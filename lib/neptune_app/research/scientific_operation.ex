@@ -23,6 +23,12 @@ defmodule NeptuneApp.Research.ScientificOperation do
     |> validate_required([:type, :parameters])
   end
 
+  def changeset_update(scientific_operation, attrs) do
+    scientific_operation
+    |> cast(attrs, [:type, :parameters, :remoteId, :remoteStatus, :remoteResult, :result])
+    |> validate_required([:type, :parameters])
+  end
+
   @doc false
   def changeset_create(scientific_operation, attrs) do
     scientific_operation
