@@ -26,8 +26,8 @@ defmodule NeptuneApp.Research.ScientificOperation do
   @doc false
   def changeset_create(scientific_operation, attrs) do
     scientific_operation
-    |> cast(attrs, [:type, :parameters])
-    |> validate_required([:type, :parameters])
+    |> cast(attrs, [:type, :parameters, :remoteId, :remoteStatus, :remoteResult])
+    |> validate_required([:type, :parameters, :remoteId, :remoteStatus, :remoteResult])
     |> Ecto.Changeset.put_assoc(:created_by, attrs["created_by"])
     |> Ecto.Changeset.put_assoc(:experiment, attrs["experiment"])
   end

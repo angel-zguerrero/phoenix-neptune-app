@@ -86,6 +86,19 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
   end
 
   defp save_scientific_operation(socket, :new, scientific_operation_params) do
+    tyrant_api_base_url = Application.fetch_env!(:neptune_app, :tyrant_api_base_url)
+    scientific_operation_payload_value = case scientific_operation_params["type"] do
+      "factorial" -> scientific_operation_params["parameters"]
+      _ -> raise("bad type #{scientific_operation_params["type"]}")
+    end
+    scientific_operation_payload = %{operation: %{type: scientific_operation_params["type"], value: scientific_operation_payload_value}}
+    body = Jason.encode!(scientific_operation_payload)
+    {:ok, response} = HTTPoison.post("#{tyrant_api_base_url}/scientist-operator/solve",body, [{"Accept", "*/*"}, {"Content-Type", "application/json"}])
+    responseBody = Jason.decode!(response.body)
+
+    scientific_operation_params = Map.put(scientific_operation_params, "remoteId", responseBody["register"]["_id"])
+    scientific_operation_params = Map.put(scientific_operation_params, "remoteStatus", responseBody["register"]["status"])
+    scientific_operation_params = Map.put(scientific_operation_params, "remoteResult", response.body)
     case Research.create_scientific_operation(scientific_operation_params) do
       {:ok, scientific_operation} ->
         notify_parent({:saved, scientific_operation})

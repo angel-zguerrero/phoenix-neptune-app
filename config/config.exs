@@ -59,6 +59,9 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :neptune_app,
+  tyrant_api_base_url: System.get_env("TYRANT_API_BASE_URL") || "http://tyrant-api-environment:3000"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
