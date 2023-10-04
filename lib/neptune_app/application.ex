@@ -20,6 +20,7 @@ defmodule NeptuneApp.Application do
       NeptuneAppWeb.Endpoint,
       # Start a worker by calling: NeptuneApp.Worker.start_link(arg)
       # {NeptuneApp.Worker, arg}
+      NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler,
       {NeptuneAppWeb.TyrantApi.TyrantApiIntegration, [strategy: :one_for_one]}
     ]
 

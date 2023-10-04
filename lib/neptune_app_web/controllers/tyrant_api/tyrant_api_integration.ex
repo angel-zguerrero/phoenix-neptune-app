@@ -31,7 +31,7 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
           attrs
         end
         case Research.update_scientific_operation(scientific_operation, attrs) do
-          {:ok, scientific_operation} ->
+          {:ok, _scientific_operation} ->
             IO.inspect("Success saving #{scientific_operation_remote_id}")
           {:error, %Ecto.Changeset{} = _changeset} ->
             IO.inspect("Error saving #{scientific_operation_remote_id}")

@@ -62,6 +62,14 @@ config :phoenix, :json_library, Jason
 config :neptune_app,
   tyrant_api_base_url: System.get_env("TYRANT_API_BASE_URL") || "http://tyrant-api-environment:3000"
 
+config :neptune_app, NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler,
+  debug_logging: true,
+  jobs: [
+    {"* * * * *", fn ->
+      require Logger
+      NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler.ingest_scientific_operation() end}
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
