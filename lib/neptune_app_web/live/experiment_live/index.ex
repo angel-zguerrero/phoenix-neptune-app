@@ -6,6 +6,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:list")
     {:ok, stream(socket, :experiments, Research.list_experiments())}
   end
 
@@ -36,6 +37,11 @@ defmodule NeptuneAppWeb.ExperimentLive.Index do
   @impl true
   def handle_info({NeptuneAppWeb.ExperimentLive.FormComponent, {:saved, experiment}}, socket) do
     {:noreply, stream_insert(socket, :experiments, experiment)}
+  end
+
+  @impl true
+  def handle_info(:experiments_list, socket) do
+    {:noreply, stream(socket, :experiments, Research.list_experiments())}
   end
 
 end
