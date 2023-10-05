@@ -9,6 +9,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   def mount(params, _session, socket) do
     Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}:scientific_operation_all")
     Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}:scientific_operations")
+    Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}:comment_all")
     Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}")
 
     scientific_operations = Research.list_scientific_operations(params["id"])
@@ -79,6 +80,11 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   @impl true
   def handle_info({experiment_id, :scientific_operation_all}, socket) do
     {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(experiment_id)) }
+  end
+
+  @impl true
+  def handle_info({experiment_id, :comment_all}, socket) do
+    {:noreply, stream(socket, :comments, Research.list_comments(experiment_id))}
   end
 
   @impl true

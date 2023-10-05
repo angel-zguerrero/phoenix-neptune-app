@@ -72,6 +72,7 @@ defmodule NeptuneAppWeb.CommentLive.FormComponent do
       {:ok, comment} ->
         notify_parent({:saved, comment})
 
+        Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{comment.experiment_id}:comment_all", {comment.experiment_id, :comment_all})
         {:noreply,
          socket
          |> put_flash(:info, "Comment created successfully")
