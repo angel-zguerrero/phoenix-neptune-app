@@ -93,24 +93,35 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
     end
     scientific_operation_payload = %{operation: %{type: scientific_operation_params["type"], value: scientific_operation_payload_value}}
     body = Jason.encode!(scientific_operation_payload)
-    {:ok, response} = HTTPoison.post("#{tyrant_api_base_url}/scientist-operator/solve",body, [{"Accept", "*/*"}, {"Content-Type", "application/json"}])
-    responseBody = Jason.decode!(response.body)
 
-    scientific_operation_params = Map.put(scientific_operation_params, "remoteId", responseBody["register"]["_id"])
-    scientific_operation_params = Map.put(scientific_operation_params, "remoteStatus", responseBody["register"]["status"])
-    scientific_operation_params = Map.put(scientific_operation_params, "remoteResult", response.body)
-    case Research.create_scientific_operation(scientific_operation_params) do
-      {:ok, scientific_operation} ->
-        notify_parent({:saved, scientific_operation})
-        Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operation_all", {scientific_operation.experiment_id, :scientific_operation_all})
-        {:noreply,
-         socket
-         |> put_flash(:info, "Scientific operation created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+    case HTTPoison.post("#{tyrant_api_base_url}/scientist-operator/solve",body, [{"Accept", "*/*"}, {"Content-Type", "application/json"}]) do
+      {:ok, response} ->
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+        responseBody = Jason.decode!(response.body)
+        scientific_operation_params = Map.put(scientific_operation_params, "remoteId", responseBody["register"]["_id"])
+        scientific_operation_params = Map.put(scientific_operation_params, "remoteStatus", responseBody["register"]["status"])
+        scientific_operation_params = Map.put(scientific_operation_params, "remoteResult", response.body)
+        case Research.create_scientific_operation(scientific_operation_params) do
+          {:ok, scientific_operation} ->
+            notify_parent({:saved, scientific_operation})
+            Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operation_all", {scientific_operation.experiment_id, :scientific_operation_all})
+            {:noreply,
+            socket
+            |> put_flash(:info, "Scientific operation created successfully")
+            |> push_patch(to: socket.assigns.patch)}
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            {:noreply, assign_form(socket, changeset)}
+        end
+
+      {:error, response} ->
+          {:noreply, socket
+          |> put_flash(:error, "Error creating Scientific operation: #{inspect(response.reason)}")
+          |> push_patch(to: socket.assigns.patch)}
     end
+
+
+
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
