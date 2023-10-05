@@ -2,7 +2,6 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler do
   use Quantum, otp_app: :neptune_app
 
   alias NeptuneApp.Research
-  alias NeptuneApp.Research.Ingestion
 
   @ingest_scientific_operation_ingestion_code "ingest-scientific-operation-ingestion-code"
   def ingest_scientific_operation do
@@ -18,7 +17,7 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler do
     last_scientific_operation = fetch_scientific_operations(ingestion.lastDate, :nil)
     if last_scientific_operation != :nil do
       intestion_params = %{code: "ingest-scientific-operation-ingestion-code", lastDate: last_scientific_operation["updatedAt"]}
-      {:ok, ingestion} = Research.update_ingestion(ingestion, intestion_params)
+      {:ok, _ingestion} = Research.update_ingestion(ingestion, intestion_params)
     end
   end
 

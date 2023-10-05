@@ -61,6 +61,8 @@ defmodule NeptuneAppWeb.ExperimentLive.FormComponent do
       {:ok, experiment} ->
         notify_parent({:saved, experiment})
 
+        Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{experiment.id}", %{experiment_id: experiment.id})
+
         {:noreply,
          socket
          |> put_flash(:info, "Experiment updated successfully")

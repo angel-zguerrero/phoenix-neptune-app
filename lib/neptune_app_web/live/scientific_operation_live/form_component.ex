@@ -88,7 +88,7 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
   defp save_scientific_operation(socket, :new, scientific_operation_params) do
     tyrant_api_base_url = Application.fetch_env!(:neptune_app, :tyrant_api_base_url)
     scientific_operation_payload_value = case scientific_operation_params["type"] do
-      "factorial" -> scientific_operation_params["parameters"]
+      "factorial" -> String.to_integer(scientific_operation_params["parameters"])
       _ -> raise("bad type #{scientific_operation_params["type"]}")
     end
     scientific_operation_payload = %{operation: %{type: scientific_operation_params["type"], value: scientific_operation_payload_value}}
@@ -102,7 +102,7 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
     case Research.create_scientific_operation(scientific_operation_params) do
       {:ok, scientific_operation} ->
         notify_parent({:saved, scientific_operation})
-
+        Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operation_all", {scientific_operation.experiment_id, :scientific_operation_all})
         {:noreply,
          socket
          |> put_flash(:info, "Scientific operation created successfully")

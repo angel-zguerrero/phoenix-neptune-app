@@ -33,6 +33,8 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
         case Research.update_scientific_operation(scientific_operation, attrs) do
           {:ok, _scientific_operation} ->
             IO.inspect("Success saving #{scientific_operation_remote_id}")
+            Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operation_all", {scientific_operation.experiment_id, :scientific_operation_all})
+            Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operations", %{scientific_operation_id: scientific_operation.id})
           {:error, %Ecto.Changeset{} = _changeset} ->
             IO.inspect("Error saving #{scientific_operation_remote_id}")
         end
