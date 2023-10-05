@@ -96,11 +96,14 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info(%{scientific_operation_id: scientific_operation_id}, socket) do
-    scientific_operation = Research.get_scientific_operation!(scientific_operation_id)
-    {:noreply, socket
-    |> assign(:scientific_operation_detail, scientific_operation)}
+    if socket.assigns.scientific_operation_detail != :nil && socket.assigns.scientific_operation_detail.id == scientific_operation_id do
+      scientific_operation = Research.get_scientific_operation!(scientific_operation_id)
+      {:noreply, socket
+      |> assign(:scientific_operation_detail, scientific_operation)}
+    else
+      {:noreply, socket}
+    end
   end
-
 
   defp page_title(:show), do: "Show Experiment"
   defp page_title(:edit), do: "Edit Experiment"
