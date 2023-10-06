@@ -1,39 +1,40 @@
-# NeptuneApp
+# Phoenix Neptune App
 
-To start your Phoenix server:
+Umbrella Corp's Web Application (fictional but functional) this web application allows the registration of experiments and associated complex scientific operations.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+The scientific operations are sent to [Elixir Pendulum App](https://github.com/angel-zguerrero/elixir-pendulum-app) through [Node Tyrant Api](https://github.com/angel-zguerrero/node-tyrant-api), when the operation is resolved it will be returned to [Phoenix Neptune App](https://github.com/angel-zguerrero/phoenix-neptune-app) via webhook by [Node Tyrant Api](https://github.com/angel-zguerrero/node-tyrant-api).
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Written in Elixir with Phoenix Framework and using Postgres database, [Phoenix Neptune App](https://github.com/angel-zguerrero/phoenix-neptune-app) use Live View and PubSub to display real-time experiment management.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Installation
 
-## Learn more
+```bash
+$ mix deps.get
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+## Configuring the app
 
+Edit ***./config/config.exs*** file to use your own ENV VARS to configure Tyrant API Base url and the Application itself.
 
-mix archive.install hex phx_new
+ENV VARS to configure:
 
-mix ecto.create
+* DATABASE_USER
+* DATABASE_PASSWORD
+* DATABASE_HOST
+* TYRANT_API_BASE_URL   `base url for tyrant web api`
 
-iex -S mix phx.server
+## Running the app
 
-mix ecto.migrate
+```bash
+$ iex -S mix phx.server
+```
 
-mix phx.gen.live Research ScientificOperation scientific_operations  [--no-context --no-schema]
+## How to use
 
-mix phx.gen.live Research Experiment experiments
+Open in the browser `http://127.0.0.1:4000`
 
-mix ecto.gen.migration create_experiment_comments
+Then you can use the web interface to:
 
-mix phx.gen.schema Ingestion ingestion code:string lastDate:time
-
-mix phx.gen.json Research Ingestion ingestions code:string lastDate:time
-
-mix phx.gen.socket User
+* Create Users
+* Create Experiments
+* Create Scientific Operations
