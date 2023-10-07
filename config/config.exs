@@ -65,9 +65,7 @@ config :neptune_app,
 config :neptune_app, NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler,
   debug_logging: true,
   jobs: [
-    {"* * * * *", fn ->
-      require Logger
-      NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler.ingest_scientific_operation() end}
+    {"* * * * *", {NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler, :ingest_scientific_operation, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom

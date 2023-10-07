@@ -26,6 +26,7 @@ ENV VARS to configure:
 ## Running the app
 
 ```bash
+$ mix ecto.migrate
 $ iex -S mix phx.server
 ```
 
