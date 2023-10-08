@@ -21,6 +21,9 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
+  config :neptune_app,
+    tyrant_api_base_url: System.get_env("TYRANT_API_BASE_URL") || "http://tyrant-api-environment:3000"
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """

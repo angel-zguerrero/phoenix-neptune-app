@@ -93,7 +93,8 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
     end
     scientific_operation_payload = %{operation: %{type: scientific_operation_params["type"], value: scientific_operation_payload_value}}
     body = Jason.encode!(scientific_operation_payload)
-
+    IO.inspect("sending operation to tyrant!")
+    IO.inspect("#{tyrant_api_base_url}/scientist-operator/solve")
     case HTTPoison.post("#{tyrant_api_base_url}/scientist-operator/solve",body, [{"Accept", "*/*"}, {"Content-Type", "application/json"}]) do
       {:ok, response} ->
 

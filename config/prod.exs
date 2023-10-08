@@ -11,7 +11,7 @@ config :neptune_app, NeptuneAppWeb.Endpoint, cache_static_manifest: "priv/static
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: NeptuneApp.Finch
 
 # Disable Swoosh Local Memory Storage
-config :swoosh, local: false
+config :swoosh, local: true
 
 # Do not print debug messages in production
 config :logger, level: :info
