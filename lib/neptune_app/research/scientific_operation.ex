@@ -9,6 +9,8 @@ defmodule NeptuneApp.Research.ScientificOperation do
     field :remoteId, :string
     field :remoteStatus, :string
     field :remoteResult, :string
+    field :duration, :float
+    field :servers, :string
 
     belongs_to :created_by, NeptuneApp.Accounts.User, foreign_key: :created_by_id
     belongs_to :experiment, NeptuneApp.Research.Experiment, foreign_key: :experiment_id
@@ -25,7 +27,7 @@ defmodule NeptuneApp.Research.ScientificOperation do
 
   def changeset_update(scientific_operation, attrs) do
     scientific_operation
-    |> cast(attrs, [:type, :parameters, :remoteId, :remoteStatus, :remoteResult, :result])
+    |> cast(attrs, [:type, :parameters, :remoteId, :remoteStatus, :remoteResult, :result, :duration, :servers])
     |> validate_required([:type, :parameters])
   end
 

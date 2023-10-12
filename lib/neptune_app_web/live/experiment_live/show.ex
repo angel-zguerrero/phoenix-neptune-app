@@ -12,7 +12,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
     Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}:comment_all")
     Phoenix.PubSub.subscribe(NeptuneApp.PubSub, "experiments:#{params["id"]}")
 
-    scientific_operations = Research.list_scientific_operations(params["id"])
+    scientific_operations = Research.list_scientific_operations(params["id"]) |> map_scientific_operations
     comments = Research.list_comments(params["id"])
     {:ok, socket
     |> stream(:scientific_operations, scientific_operations)
@@ -50,6 +50,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   @impl true
   def handle_event("open-scientific-operation-detail-modal", params, socket) do
     scientific_operation_detail = Research.get_scientific_operation!(params["scientific-operation-id"])
+    scientific_operation_detail = Map.put(scientific_operation_detail, :duration_in_seconds, transform_duration_in_seconds(scientific_operation_detail.duration))
 
     {:noreply, socket
     |> assign(:open_scientific_operation_detail, true)
@@ -64,7 +65,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info({NeptuneAppWeb.ScientificOperationLive.FormComponent, {:saved, scientific_operation}}, socket) do
-    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(scientific_operation.experiment_id))}
+    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(scientific_operation.experiment_id) |> map_scientific_operations)}
   end
 
   @impl true
@@ -79,8 +80,9 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info({experiment_id, :scientific_operation_all}, socket) do
-    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(experiment_id)) }
+    {:noreply, stream(socket, :scientific_operations, Research.list_scientific_operations(experiment_id) |> map_scientific_operations) }
   end
+
 
   @impl true
   def handle_info({experiment_id, :comment_all}, socket) do
@@ -102,6 +104,21 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
       |> assign(:scientific_operation_detail, scientific_operation)}
     else
       {:noreply, socket}
+    end
+  end
+
+  defp map_scientific_operations (scientific_operations) do
+    scientific_operations
+    |> Enum.map(fn scientific_operation ->
+       Map.put(scientific_operation, :duration_in_seconds, transform_duration_in_seconds(scientific_operation.duration))
+    end)
+  end
+
+  defp transform_duration_in_seconds(duration) do
+    if duration == :nil do
+      "-"
+    else
+      duration / 1000
     end
   end
 

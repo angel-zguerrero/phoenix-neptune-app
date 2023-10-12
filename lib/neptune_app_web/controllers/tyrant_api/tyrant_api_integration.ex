@@ -23,10 +23,42 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
         scientific_operation_result = Jason.decode!(response.body)
         attrs = %{
           remoteStatus: scientific_operation_result["status"],
-          remoteResult: response.body
+          remoteResult: response.body,
         }
+        duration = if (Map.has_key?(scientific_operation_result, "resultData")) do
+          if(Map.has_key?(scientific_operation_result["resultData"],"execution_time")) do
+            scientific_operation_result["resultData"]["execution_time"]
+          else
+            0
+          end
+        else
+          :nil
+        end
+
+        attrs = if(duration != :nil)do
+           Map.put(attrs, :duration, duration)
+        else
+          attrs
+        end
+
+        servers = if (Map.has_key?(scientific_operation_result, "resultData")) do
+          if(Map.has_key?(scientific_operation_result["resultData"],"executors")) do
+            Jason.encode!(scientific_operation_result["resultData"]["executors"])
+          else
+            []
+          end
+        else
+          :nil
+        end
+
+        attrs = if(servers != :nil)do
+           Map.put(attrs, :servers, servers)
+        else
+          attrs
+        end
+
         attrs = if attrs.remoteStatus == "success" && scientific_operation_result["operation"]["type"] == "factorial" do
-          Map.put(attrs, :result, scientific_operation_result["resultData"]["result"]["value"])
+          Map.put(attrs, :result, "#{scientific_operation_result["resultData"]["result"]["value"]}")
         else
           attrs
         end
@@ -35,8 +67,8 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
             IO.inspect("Success saving #{scientific_operation_remote_id}")
             Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operation_all", {scientific_operation.experiment_id, :scientific_operation_all})
             Phoenix.PubSub.broadcast(NeptuneApp.PubSub,"experiments:#{scientific_operation.experiment_id}:scientific_operations", %{scientific_operation_id: scientific_operation.id})
-          {:error, %Ecto.Changeset{} = _changeset} ->
-            IO.inspect("Error saving #{scientific_operation_remote_id}")
+          error ->
+            IO.inspect(error)
         end
       end
     end
