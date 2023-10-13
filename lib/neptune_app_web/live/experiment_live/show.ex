@@ -98,7 +98,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info(%{scientific_operation_id: scientific_operation_id}, socket) do
-    if socket.assigns.scientific_operation_detail != :nil && socket.assigns.scientific_operation_detail.id == scientific_operation_id do
+    if Map.has_key?(socket.assigns, "scientific_operation_detail") && socket.assigns.scientific_operation_detail.id == scientific_operation_id do
       scientific_operation = Research.get_scientific_operation!(scientific_operation_id)
       {:noreply, socket
       |> assign(:scientific_operation_detail, scientific_operation)}
