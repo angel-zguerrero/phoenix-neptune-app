@@ -51,7 +51,7 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   def handle_event("open-scientific-operation-detail-modal", params, socket) do
     scientific_operation_detail = Research.get_scientific_operation!(params["scientific-operation-id"])
     scientific_operation_detail = Map.put(scientific_operation_detail, :duration_in_seconds, transform_duration_in_seconds(scientific_operation_detail.duration))
-
+    scientific_operation_detail = Map.put(scientific_operation_detail, :servers_array, transform_servers_in_array(scientific_operation_detail.servers))
     {:noreply, socket
     |> assign(:open_scientific_operation_detail, true)
     |> assign(:scientific_operation_detail, scientific_operation_detail)}
@@ -110,7 +110,9 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
   defp map_scientific_operations (scientific_operations) do
     scientific_operations
     |> Enum.map(fn scientific_operation ->
-       Map.put(scientific_operation, :duration_in_seconds, transform_duration_in_seconds(scientific_operation.duration))
+      scientific_operation
+      |> Map.put( :duration_in_seconds, transform_duration_in_seconds(scientific_operation.duration))
+      |> Map.put( :servers_array, transform_duration_in_seconds(scientific_operation.duration))
     end)
   end
 
@@ -119,6 +121,14 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
       "-"
     else
       duration / 1000
+    end
+  end
+
+  defp transform_servers_in_array(servers) do
+    if servers == :nil do
+      []
+    else
+      Jason.decode!(servers)
     end
   end
 

@@ -60,6 +60,13 @@
   <:item title="Remoteresult"><%= @scientific_operation_detail.remoteResult %></:item>
   <:item title="Duration(Seconds)"><%= @scientific_operation_detail.duration_in_seconds %></:item>
   <:item title="Result"><%= @scientific_operation_detail.result %></:item>
+  <:item title="Executors Servers">
+    <ul>
+      <%= for server <- @scientific_operation_detail.servers_array do %>
+        <li><%= server %></li>
+      <% end %>
+    </ul>
+  </:item>
 </.list>
 </.modal>
 
