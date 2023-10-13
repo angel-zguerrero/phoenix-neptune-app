@@ -81,7 +81,7 @@ defmodule NeptuneAppWeb.ExperimentLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Experiment created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_navigate(to: ~p"/experiments/#{experiment}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}
