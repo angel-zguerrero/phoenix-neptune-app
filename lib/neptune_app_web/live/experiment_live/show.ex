@@ -98,10 +98,12 @@ defmodule NeptuneAppWeb.ExperimentLive.Show do
 
   @impl true
   def handle_info(%{scientific_operation_id: scientific_operation_id}, socket) do
-    if Map.has_key?(socket.assigns, "scientific_operation_detail") && socket.assigns.scientific_operation_detail.id == scientific_operation_id do
-      scientific_operation = Research.get_scientific_operation!(scientific_operation_id)
+    if Map.has_key?(socket.assigns, :scientific_operation_detail) && socket.assigns.scientific_operation_detail.id == scientific_operation_id do
+      scientific_operation_detail = Research.get_scientific_operation!(scientific_operation_id)
+      scientific_operation_detail = Map.put(scientific_operation_detail, :duration_in_seconds, transform_duration_in_seconds(scientific_operation_detail.duration))
+      scientific_operation_detail = Map.put(scientific_operation_detail, :servers_array, transform_servers_in_array(scientific_operation_detail.servers))
       {:noreply, socket
-      |> assign(:scientific_operation_detail, scientific_operation)}
+      |> assign(:scientific_operation_detail, scientific_operation_detail)}
     else
       {:noreply, socket}
     end
