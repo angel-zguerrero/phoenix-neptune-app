@@ -12,12 +12,12 @@
     </script>
   </head>
   <body class="bg-white antialiased">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end menu-bg ">
       <%= if @current_user do %>
         <li>
           <.link
             href={~p"/experiments"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
           >
             Experiments
           </.link>
@@ -25,7 +25,7 @@
         <li>
           <.link
             href={~p"/scientific_operations"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
           >
             Scientific operations
           </.link>
@@ -34,19 +34,19 @@
           <li>
             <.link
               href={~p"/users/register"}
-              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
             >
               Register new user
             </.link>
           </li>
         <% end %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
+        <li class="text-[0.8125rem] leading-6 text-zinc-red">
           <%= @current_user.email %>
         </li>
         <li>
           <.link
             href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
           >
             Settings
           </.link>
@@ -55,7 +55,7 @@
           <.link
             href={~p"/users/log_out"}
             method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
           >
             Log out
           </.link>
@@ -65,7 +65,7 @@
         <li>
           <.link
             href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-red font-semibold hover:text-zinc-red-med"
           >
             Log in
           </.link>

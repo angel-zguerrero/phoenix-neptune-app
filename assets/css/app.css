@@ -3,3 +3,15 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+.text-zinc-red {
+  color: rgb(255 0 0 );
+}
+
+.text-zinc-red-med {
+  --tw-text-opacity: 1;
+  color: rgb(220, 102, 102 / var(--tw-text-opacity));
+}
+
+.menu-bg {
+  background-color: rgb(24 24 27);
+}
