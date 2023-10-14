@@ -1,23 +1,25 @@
 version: "3"
 
 volumes:
-  tyrant-api-redis:
-  tyrant-api-rabbitmq:
   neptune-app-adminer:
-  neptune-app-postgres:
+  neptune-app-postgres:  
 networks:
   umbrella-net:
     name: "umbrella-net"
     external: false
+name: neptune-services
 services:
-  neptune-app-environment:
+  neptune-app:
     image: azguerrero/phoenix-neptune-app
+    restart: on-failure
+    depends_on: 
+      - neptune-app-postgres
     volumes:
-      - ../:/neptune-app-environment
+      - ../:/neptune-app
     environment:
       PORT: 18323
       PHX_HOST: localhost
-      TYRANT_API_BASE_URL: http://tyrant-api-environment:17323
+      TYRANT_API_BASE_URL: http://tyrant-api:17323
       DATABASE_URL: postgres://postgres:postgres@neptune-app-postgres:5432/neptune_app_dev
       PHX_SERVER: true
     expose:
@@ -40,6 +42,11 @@ services:
     restart: unless-stopped
     networks:
       - umbrella-net
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5432" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
   neptune-app-adminer:
     image: adminer
     volumes:
@@ -54,69 +61,5 @@ services:
     ports:
       - 8080:8080      
     restart: unless-stopped
-    networks:
-      - umbrella-net
-  tyrant-api-environment:
-    image: azguerrero/node-tyrant-api  
-    volumes:
-      - ../:/tyrant-api-environment
-    expose:
-      - 17323
-    ports:
-      - 17323:17323 
-    networks:
-      - umbrella-net
-    environment:
-      - MONGO_RS_URL=mongodb://rs-mongo:27017,rs-mongo:27018,rs-mongo:27019/tyrant?replicaSet=rs
-      - REDIS_PORT=6379
-      - REDIS_HOST=tyrant-api-redis
-      - REDIS_USERNAME=
-      - REDIS_PASSWORD=
-      - RABBITMQ_URL=amqp://admin:admin@tyrant-api-rabbitmq:5672
-      - RABBITMQ_SCIENTIST_OPERATIONS_TO_SOLVE_QUEUE=scientist-operations-to-solve
-      - RABBITMQ_SCIENTIST_OPERATIONS_SOLVED=scientist-operations-solved
-      - STUCK_SCIENTIST_OPERATIONS_AS_FAILED_INTERVAL=20 seconds
-      - STUCK_SCIENTIST_OPERATIONS_AS_FAILED_LIMIT=200
-      - STUCK_SCIENTIST_OPERATIONS_AS_FAILED_WINDOW=10
-      - SCIENTIST_OPERATIONS_NOTIFICATION_WEBHOOK=http://neptune-app-environment:18323/api/tyrant-api/notification
-      - ENCRYPTION_PASSWORD=123456789
-  tyrant-api-redis:
-    image: redis
-    volumes:
-      - tyrant-api-redis:/data
-    expose:
-      - 6379
-    ports:
-      - 6379:6379      
-    restart: unless-stopped
-    networks:
-      - umbrella-net
-  tyrant-api-mongo:
-    image: azguerrero/mongo-replicaset
-    container_name: rs-mongo
-    expose:
-      - 27017
-      - 27018
-      - 27019
-    ports:
-      - 27017:27017 
-      - 27018:27018 
-      - 27019:27019 
-
-    volumes:
-      - ./db:/data/db
-    networks:
-      - umbrella-net
-  tyrant-api-rabbitmq:
-    image: azguerrero/rabbitmq-deduplication
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin 
-    volumes:
-      - tyrant-api-rabbitmq:/var/lib/rabbitmq
-      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     networks:
       - umbrella-net
