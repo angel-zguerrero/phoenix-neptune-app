@@ -19,7 +19,7 @@ services:
     environment:
       PORT: 18323
       PHX_HOST: localhost
-      TYRANT_API_BASE_URL: http://tyrant-api:17323
+      TYRANT_API_BASE_URL: http://tyrant-services-tyrant-api-1:17323
       DATABASE_URL: postgres://postgres:postgres@neptune-app-postgres:5432/neptune_app_dev
       PHX_SERVER: true
     expose:
