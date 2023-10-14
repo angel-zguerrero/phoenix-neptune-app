@@ -41,6 +41,18 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
           attrs
         end
 
+        progress = if (Map.has_key?(scientific_operation_result, "progress")) do
+          scientific_operation_result["progress"]
+        else
+          :nil
+        end
+
+        attrs = if(progress != :nil)do
+          Map.put(attrs, :progress, progress)
+        else
+          attrs
+        end
+
         servers = if (Map.has_key?(scientific_operation_result, "resultData")) do
           if(Map.has_key?(scientific_operation_result["resultData"],"executors")) do
             Jason.encode!(scientific_operation_result["resultData"]["executors"])
