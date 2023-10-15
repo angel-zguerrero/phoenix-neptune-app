@@ -75,4 +75,4 @@ Before running this service, you must first run these applications [Node Tyrant 
 
 ## Author
 
-- [@angel-zguerrero](https://github.com/angel-zguerrero)
+[@angel-zguerrero](https://github.com/angel-zguerrero)
