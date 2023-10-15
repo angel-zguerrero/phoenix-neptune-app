@@ -1,6 +1,6 @@
 # Phoenix Neptune App
 
-Umbrella Corp's Web Application (fictional but functional) this web application allows the registration of experiments and associated complex scientific operations.
+Umbrella Corp's Web Application (fictitious but functional) this web application allows the registration of experiments and associated complex scientific operations.
 
 The scientific operations are sent to [Elixir Pendulum App](https://github.com/angel-zguerrero/elixir-pendulum-app) through [Node Tyrant Api](https://github.com/angel-zguerrero/node-tyrant-api), when the operation is resolved it will be returned to [Phoenix Neptune App](https://github.com/angel-zguerrero/phoenix-neptune-app) via webhook by [Node Tyrant Api](https://github.com/angel-zguerrero/node-tyrant-api).
 
