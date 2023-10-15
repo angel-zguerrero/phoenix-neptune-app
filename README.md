@@ -22,6 +22,7 @@ You can see all the ecosystem in action of this this distributed service deployi
 - [Publish / Subscribe Pattern](https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html)
 - [Real-time / LiveView](https://hexdocs.pm/phoenix/presence.html#usage-with-liveview) 
 - [ORM](https://hexdocs.pm/ecto/Ecto.html)
+- [Data Ingestion](https://www.ibm.com/docs/en/fci/6.5.1?topic=ingestion-pattern-data)
 - [Docker Container](https://www.docker.com/resources/what-container)
 
 ## Installation
