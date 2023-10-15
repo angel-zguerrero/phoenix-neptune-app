@@ -6,17 +6,17 @@ The scientific operations are sent to [Elixir Pendulum App](https://github.com/a
 
 Written in Elixir with Phoenix Framework and using Postgres database, [Phoenix Neptune App](https://github.com/angel-zguerrero/phoenix-neptune-app) use Live View and PubSub to display real-time experiment management.
 
-## See in action
+## ▶️ See in action
 
 You can see all the ecosystem in action of this this distributed service deploying [Distributed Hive Network](https://github.com/angel-zguerrero/hive-docker/blob/main/distributed-hive-network).
 
-## Tech Stack
+## 🛠 Tech Stack
 
 - [Phoenix Framework](https://www.phoenixframework.org)
 - [Elixir](https://elixir-lang.org)
 - [Postgres](https://www.postgresql.org)
 
-## Techniques
+## 👨🏻‍💻 Techniques
 
 - [MVC Pattern](https://hexdocs.pm/phoenix/overview.html)
 - [Publish / Subscribe Pattern](https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html)
