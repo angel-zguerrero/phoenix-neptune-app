@@ -8,7 +8,7 @@ Written in Elixir with Phoenix Framework and using Postgres database, [Phoenix N
 
 ### See in action
 
-You can see all the ecosystem in action of this this distributed service deploying this [docker-compose.yaml](https://github.com/angel-zguerrero/hive-docker/blob/main/distributed-hive-network/docker-compose.yaml).
+You can see all the ecosystem in action of this this distributed service deploying [Distributed Hive Network](https://github.com/angel-zguerrero/hive-docker/blob/main/distributed-hive-network).
 
 
 ## Installation
