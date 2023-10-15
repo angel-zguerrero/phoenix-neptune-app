@@ -10,7 +10,9 @@ networks:
 name: neptune-services
 services:
   neptune-app:
-    image: azguerrero/phoenix-neptune-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile 
     restart: on-failure
     depends_on: 
       - neptune-app-postgres
