@@ -59,3 +59,7 @@ $ docker-compose up --build
 ### Note
 
 Before running this service, you must first run these applications [Node Tyrant Api](https://github.com/angel-zguerrero/node-tyrant-api) and [Elixir Pendulum App](https://github.com/angel-zguerrero/elixir-pendulum-app).
+
+## Author
+
+- [@angel-zguerrero](https://github.com/angel-zguerrero)
