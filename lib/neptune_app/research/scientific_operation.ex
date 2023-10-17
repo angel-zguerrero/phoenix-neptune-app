@@ -3,7 +3,7 @@ defmodule NeptuneApp.Research.ScientificOperation do
   import Ecto.Changeset
 
   schema "scientific_operations" do
-    field :type, Ecto.Enum, values: [:factorial], default: :factorial
+    field :type, Ecto.Enum, values: [:factorial, :integral_trapezoidal], default: :factorial
     field :result, :string
     field :parameters, :string
     field :remoteId, :string
@@ -12,11 +12,22 @@ defmodule NeptuneApp.Research.ScientificOperation do
     field :duration, :float
     field :progress, :float
     field :servers, :string
+    field :parameters_factorial_n, :integer, virtual: true
+    field :parameters_integral_trapezoidal_function, :string, virtual: true
+    field :parameters_integral_trapezoidal_a, :float, virtual: true
+    field :parameters_integral_trapezoidal_b, :float, virtual: true
+    field :parameters_integral_trapezoidal_epsilon, :float, virtual: true
 
     belongs_to :created_by, NeptuneApp.Accounts.User, foreign_key: :created_by_id
     belongs_to :experiment, NeptuneApp.Research.Experiment, foreign_key: :experiment_id
 
     timestamps()
+  end
+
+
+  @doc false
+  def translated_types()  do
+    [{"Factorial", :factorial} , {"Integral trapezoidal", :integral_trapezoidal}]
   end
 
   @doc false

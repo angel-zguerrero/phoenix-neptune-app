@@ -23,12 +23,20 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
           field={@form[:type]}
           type="select"
           label="Type"
-          options={Ecto.Enum.values(NeptuneApp.Research.ScientificOperation, :type)}
+          options={NeptuneApp.Research.ScientificOperation.translated_types()}
         />
         <%= if  @currentType == :factorial || @currentType == "factorial" do %>
-          <.input field={@form[:parameters]} type="number" label="Parameters" />
+          <.input field={@form[:parameters_factorial_n]} type="number" label="n" />
         <% else %>
-        <.input field={@form[:parameters]} type="textarea" label="Parameters" />
+          <%= if  @currentType == :integral_trapezoidal || @currentType == "integral_trapezoidal" do %>
+            <.input field={@form[:parameters_integral_trapezoidal_function]} type="textarea" label="Function" />
+            <.input field={@form[:parameters_integral_trapezoidal_a]} type="number" label="Left limit" />
+            <.input field={@form[:parameters_integral_trapezoidal_b]} type="number" label="Right limit" />
+            <.input field={@form[:parameters_integral_trapezoidal_epsilon]} type="text" label="Epsilon" />
+
+          <% else %>
+            <.input field={@form[:parameters]} type="textarea" label="Parameters" />
+          <% end%>
         <% end%>
         <:actions>
           <.button phx-disable-with="Saving...">Save Scientific operation</.button>
@@ -88,17 +96,22 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
   defp save_scientific_operation(socket, :new, scientific_operation_params) do
     tyrant_api_base_url = Application.fetch_env!(:neptune_app, :tyrant_api_base_url)
     scientific_operation_payload_value = case scientific_operation_params["type"] do
-      "factorial" -> String.to_integer(scientific_operation_params["parameters"])
+      "factorial" -> String.to_integer(scientific_operation_params["parameters_factorial_n"])
+      "integral_trapezoidal" -> %{
+        function: scientific_operation_params["parameters_integral_trapezoidal_function"],
+        a: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_a"]),
+        b: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_b"]),
+        epsilon: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_epsilon"])
+      }
       _ -> raise("bad type #{scientific_operation_params["type"]}")
     end
     scientific_operation_payload = %{operation: %{type: scientific_operation_params["type"], value: scientific_operation_payload_value}}
     body = Jason.encode!(scientific_operation_payload)
-    IO.inspect("sending operation to tyrant!")
     IO.inspect("#{tyrant_api_base_url}/scientist-operator/solve")
     case HTTPoison.post("#{tyrant_api_base_url}/scientist-operator/solve",body, [{"Accept", "*/*"}, {"Content-Type", "application/json"}]) do
       {:ok, response} ->
-
         responseBody = Jason.decode!(response.body)
+        scientific_operation_params = Map.put(scientific_operation_params, "parameters", Jason.encode!(scientific_operation_payload_value))
         scientific_operation_params = Map.put(scientific_operation_params, "remoteId", responseBody["register"]["_id"])
         scientific_operation_params = Map.put(scientific_operation_params, "remoteStatus", responseBody["register"]["status"])
         scientific_operation_params = Map.put(scientific_operation_params, "remoteResult", response.body)

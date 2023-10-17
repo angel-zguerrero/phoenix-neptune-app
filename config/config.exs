@@ -60,7 +60,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :neptune_app,
-  tyrant_api_base_url: System.get_env("TYRANT_API_BASE_URL") || "http://tyrant-api-environment:3000"
+  tyrant_api_base_url: System.get_env("TYRANT_API_BASE_URL") || "http://tyrant-services-tyrant-api-1:17323"
 
 config :neptune_app, NeptuneAppWeb.TyrantApi.TyrantApiIntegrationScheduler,
   debug_logging: true,

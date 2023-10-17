@@ -357,9 +357,13 @@ defmodule NeptuneApp.Research do
 
   """
   def create_scientific_operation(attrs \\ %{}) do
-    %ScientificOperation{}
+    IO.inspect("create_scientific_operation")
+    r = %ScientificOperation{}
     |> ScientificOperation.changeset_create(attrs)
     |> Repo.insert()
+    IO.inspect("FINISH create_scientific_operation")
+    IO.inspect(r)
+    r
   end
 
   @doc """
