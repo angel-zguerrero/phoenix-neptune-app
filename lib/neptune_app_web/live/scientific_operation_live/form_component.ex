@@ -29,10 +29,10 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
           <.input field={@form[:parameters_factorial_n]} type="number" label="n" />
         <% else %>
           <%= if  @currentType == :integral_trapezoidal || @currentType == "integral_trapezoidal" do %>
-            <.input field={@form[:parameters_integral_trapezoidal_function]} type="textarea" label="Function" />
-            <.input field={@form[:parameters_integral_trapezoidal_a]} type="number" label="Left limit" />
-            <.input field={@form[:parameters_integral_trapezoidal_b]} type="number" label="Right limit" />
-            <.input field={@form[:parameters_integral_trapezoidal_epsilon]} type="text" label="Epsilon" />
+            <.input field={@form[:parameters_integral_trapezoidal_function]} type="textarea" label="f(x)" />
+            <.input field={@form[:parameters_integral_trapezoidal_a]} type="number" step="any" label="Left limit" />
+            <.input field={@form[:parameters_integral_trapezoidal_b]} type="number" step="any" label="Right limit" />
+            <.input field={@form[:parameters_integral_trapezoidal_epsilon]} type="number" step="any" label="Epsilon" />
 
           <% else %>
             <.input field={@form[:parameters]} type="textarea" label="Parameters" />
@@ -93,15 +93,34 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
     end
   end
 
+  def parse_to_float(value) do
+    {float, _} = Float.parse(value)
+    float
+  end
+
+  def is_float?(value) when is_binary(value) do
+    case Float.parse(value) do
+      {float, _} when is_float(float) -> true
+      :error -> false
+    end
+  end
+
+  def is_integer?(value) when is_binary(value) do
+    case Integer.parse(value) do
+      {integer, _} when is_integer(integer) -> true
+      :error -> false
+    end
+  end
+
   defp save_scientific_operation(socket, :new, scientific_operation_params) do
     tyrant_api_base_url = Application.fetch_env!(:neptune_app, :tyrant_api_base_url)
     scientific_operation_payload_value = case scientific_operation_params["type"] do
       "factorial" -> String.to_integer(scientific_operation_params["parameters_factorial_n"])
       "integral_trapezoidal" -> %{
         function: scientific_operation_params["parameters_integral_trapezoidal_function"],
-        a: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_a"]),
-        b: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_b"]),
-        epsilon: String.to_float(scientific_operation_params["parameters_integral_trapezoidal_epsilon"])
+        a: parse_to_float(scientific_operation_params["parameters_integral_trapezoidal_a"]),
+        b: parse_to_float(scientific_operation_params["parameters_integral_trapezoidal_b"]),
+        epsilon: parse_to_float(scientific_operation_params["parameters_integral_trapezoidal_epsilon"])
       }
       _ -> raise("bad type #{scientific_operation_params["type"]}")
     end
