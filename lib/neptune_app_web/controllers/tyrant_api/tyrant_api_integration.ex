@@ -75,7 +75,7 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
           attrs
         end
 
-        attrs = if attrs.remoteStatus == "failed" && Map.has_key?(scientific_operation_result, "failedReason")) do
+        attrs = if attrs.remoteStatus == "failed" && Map.has_key?(scientific_operation_result, "failedReason") do
           Map.put(attrs, :result, "#{scientific_operation_result["failedReason"]}")
         else
           attrs
