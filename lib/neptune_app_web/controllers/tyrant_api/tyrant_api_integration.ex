@@ -69,7 +69,7 @@ defmodule NeptuneAppWeb.TyrantApi.TyrantApiIntegration do
           attrs
         end
 
-        attrs = if attrs.remoteStatus == "success" && scientific_operation_result["operation"]["type"] == "factorial" do
+        attrs = if attrs.remoteStatus == "success" && (scientific_operation_result["operation"]["type"] == "factorial" || scientific_operation_result["operation"]["type"] == "integral_trapezoidal") do
           Map.put(attrs, :result, "#{scientific_operation_result["resultData"]["result"]["value"]}")
         else
           attrs
