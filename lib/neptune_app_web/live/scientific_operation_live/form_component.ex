@@ -26,7 +26,7 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
           options={NeptuneApp.Research.ScientificOperation.translated_types()}
         />
         <%= if  @currentType == :factorial || @currentType == "factorial" do %>
-          <.input field={@form[:parameters_factorial_n]} type="number" label="n" />
+          <.input field={@form[:parameters_factorial_n]} type="number" min="0" step="1" label="n" />
         <% else %>
           <%= if  @currentType == :integral_trapezoidal || @currentType == "integral_trapezoidal" do %>
             <.input field={@form[:parameters_integral_trapezoidal_function]} type="textarea" label="f(x)" />
@@ -98,24 +98,15 @@ defmodule NeptuneAppWeb.ScientificOperationLive.FormComponent do
     float
   end
 
-  def is_float?(value) when is_binary(value) do
-    case Float.parse(value) do
-      {float, _} when is_float(float) -> true
-      :error -> false
-    end
-  end
-
-  def is_integer?(value) when is_binary(value) do
-    case Integer.parse(value) do
-      {integer, _} when is_integer(integer) -> true
-      :error -> false
-    end
+  def parse_to_integer(value) do
+    {integer, _} = Integer.parse(value)
+    integer
   end
 
   defp save_scientific_operation(socket, :new, scientific_operation_params) do
     tyrant_api_base_url = Application.fetch_env!(:neptune_app, :tyrant_api_base_url)
     scientific_operation_payload_value = case scientific_operation_params["type"] do
-      "factorial" -> String.to_integer(scientific_operation_params["parameters_factorial_n"])
+      "factorial" -> parse_to_integer(scientific_operation_params["parameters_factorial_n"])
       "integral_trapezoidal" -> %{
         function: scientific_operation_params["parameters_integral_trapezoidal_function"],
         a: parse_to_float(scientific_operation_params["parameters_integral_trapezoidal_a"]),
